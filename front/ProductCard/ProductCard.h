@@ -14,7 +14,7 @@ class ProductCard : public QLabel {
     Q_OBJECT;
 
 public:
-    ProductCard(int x, int y, QWidget *parent = nullptr, std::string path = "../noImage.jpg");
+    ProductCard(int x, int y, QWidget *parent = nullptr, std::string path = "../front/res/noImage.jpg");
 
     ProductCard(QWidget *parent = nullptr);
 

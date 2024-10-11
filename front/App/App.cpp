@@ -5,26 +5,25 @@
 #include "App.h"
 
 #include <iostream>
+#include <qcoreapplication.h>
 
 App::App() {
     setFixedSize(resolution_.first, resolution_.second);
     QPalette palette;
-    palette.setBrush(QPalette::Window, QBrush(QPixmap("../background.jpg")));
+    palette.setBrush(QPalette::Window, QBrush(QPixmap("../front/res/background.jpg")));
     setPalette(palette);
-    palette.setBrush(QPalette::Button, QBrush(QPixmap("../mail.png")));;
+    palette.setBrush(QPalette::Button, QBrush(QPixmap("../front/res/mail.png")));
     mainScreen_ = new QLabel(this);
     mainScreen_->resize(resolution_.first, resolution_.second);
     mailButton_ = new QPushButton(mainScreen_);
     mailButton_->resize(100, 100);
     mailButton_->move(30, 130);
-    mailButton_->setIcon(QIcon("../mail.png"));
+    mailButton_->setIcon(QIcon("../front/res/mail.png"));
     mailButton_->setIconSize(QSize(100, 100));
     mailButton_->setStyleSheet("QPushButton { border: none; background: transparent; }");
     mailButton_->setEnabled(true);
-    connect(mailButton_, SIGNAL(clicked()), this, SLOT(mail_clicked()));
 
-
-    int fontId = QFontDatabase::addApplicationFont("../BigBlueTermPlusNerdFontMono-Regular.ttf");
+    int fontId = QFontDatabase::addApplicationFont("../front/res/BigBlueTermPlusNerdFontMono-Regular.ttf");
     QString fontFamily = QFontDatabase::applicationFontFamilies(fontId).at(0);
     QFont font(fontFamily);
     font.setPointSize(14);
@@ -35,22 +34,22 @@ App::App() {
     mailLabel_->move(30 + 50 - metrics.horizontalAdvance(mailLabel_->text()) / 2, 130 + 100 + 10);
     mailLabel_->setStyleSheet("QLabel { color: white; }");
 
-
     storageButton_ = new QPushButton(mainScreen_);
     storageButton_->resize(100, 100);
     storageButton_->move(180, 130);
-    storageButton_->setIcon(QIcon("../storage.png"));
+    storageButton_->setIcon(QIcon("../front/res/storage.png"));
     storageButton_->setIconSize(QSize(100, 100));
     storageButton_->setStyleSheet("QPushButton { border: none; background: transparent; }");
     storageButton_->setEnabled(true);
-    connect(storageButton_, SIGNAL(clicked()), this, SLOT(storage_clicked()));
+
+    connect(mailButton_, &QPushButton::clicked, this, &App::mail_clicked);
+    connect(storageButton_, &QPushButton::clicked, this, &App::storage_clicked);
 
     storageLabel_ = new QLabel(mainScreen_);
     storageLabel_->setText("Storage");
     storageLabel_->setFont(font);
     storageLabel_->move(180 + 50 - metrics.horizontalAdvance(storageLabel_->text()) / 2, 130 + 100 + 10);
     storageLabel_->setStyleSheet("QLabel { color: white; }");
-
 
     mailScreen_ = new QLabel(this);
     mailScreen_->resize(resolution_.first, resolution_.second);
@@ -79,13 +78,6 @@ App::App() {
 }
 
 App::~App() {
-    delete mainScreen_;
-    delete mailScreen_;
-    delete storageScreen_;
-    delete mailLabel_;
-    delete mailButton_;
-    delete storageLabel_;
-    delete storageButton_;
     for (auto &e: product_cards_) {
         delete e;
         e = nullptr;

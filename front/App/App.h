@@ -14,7 +14,7 @@
 #include <QThread>
 #include <QMessageBox>
 #include <QCloseEvent>
-#include "front/ProductCard/ProductCard.h"
+#include "../ProductCard/ProductCard.h"
 #include <QScrollArea>
 #include <vector>
 #include <QVBoxLayout>
